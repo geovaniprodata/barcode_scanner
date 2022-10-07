@@ -27,6 +27,9 @@ class AiBarcodeScanner extends StatefulWidget {
   /// Set to false if you don't want duplicate barcode to be detected
   final bool allowDuplicates;
 
+  /// Gonna switch camera face ?
+  final bool? switchFace;
+
   /// Fit to screen
   final BoxFit fit;
 
@@ -110,12 +113,13 @@ class AiBarcodeScanner extends StatefulWidget {
     this.allowDuplicates = false,
     this.fit = BoxFit.cover,
     this.controller,
+    this.switchFace,
     this.onDetect,
     this.borderColor = Colors.white,
-    this.borderWidth = 8,
+    this.borderWidth = 10,
     this.overlayColor = const Color.fromRGBO(0, 0, 0, 80),
-    this.borderRadius = 8,
-    this.borderLength = 36,
+    this.borderRadius = 10,
+    this.borderLength = 30,
     this.cutOutSize = 300,
     this.cutOutWidth,
     this.cutOutHeight,
@@ -196,7 +200,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                 HapticFeedback.mediumImpact();
               }
               final String code = barcode.rawValue!;
-              debugPrint('Barcode rawValue => $code');
+              debugPrint('Barcode found => $code');
               widget.onScan(code);
               setState(() {});
               if (widget.canPop) {
@@ -236,50 +240,52 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                   ),
                   child: ListTile(
                     contentPadding: widget.hintPadding,
-                    leading: IconButton(
-                      color: Theme.of(context).primaryColor,
-                      tooltip: "Switch Camera",
-                      onPressed: () => controller.switchCamera(),
-                      icon: ValueListenableBuilder<CameraFacing>(
-                        valueListenable: controller.cameraFacingState,
-                        builder: (context, state, child) {
-                          switch (state) {
-                            case CameraFacing.front:
-                              return const Icon(Icons.camera_front);
-                            case CameraFacing.back:
-                              return const Icon(Icons.camera_rear);
-                          }
-                        },
-                      ),
-                    ),
+                    leading: widget.switchFace
+                        ? IconButton(
+                            color: Theme.of(context).primaryColor,
+                            tooltip: "Switch Camera",
+                            onPressed: () => controller.switchCamera(),
+                            icon: ValueListenableBuilder<CameraFacing>(
+                              valueListenable: controller.cameraFacingState,
+                              builder: (context, state, child) {
+                                switch (state) {
+                                  case CameraFacing.front:
+                                    return const Icon(Icons.camera_front);
+                                  case CameraFacing.back:
+                                    return const Icon(Icons.camera_rear);
+                                }
+                              },
+                            ),
+                          )
+                        : null,
                     title: Text(
                       widget.hintText,
                       textAlign: TextAlign.center,
                       style: widget.hintTextStyle,
                     ),
-                    trailing: IconButton(
-                      tooltip: "Torch",
-                      onPressed: controller.hasTorch
-                          ? () => controller.toggleTorch()
-                          : null,
-                      icon: ValueListenableBuilder<TorchState>(
-                        valueListenable: controller.torchState,
-                        builder: (context, state, child) {
-                          switch (state) {
-                            case TorchState.off:
-                              return const Icon(
-                                Icons.flash_off,
-                                color: Colors.grey,
-                              );
-                            case TorchState.on:
-                              return const Icon(
-                                Icons.flash_on,
-                                color: Colors.orange,
-                              );
-                          }
-                        },
-                      ),
-                    ),
+                    trailing: controller.torchEnabled
+                        ? IconButton(
+                            tooltip: "Torch",
+                            onPressed: () => controller.toggleTorch(),
+                            icon: ValueListenableBuilder<TorchState>(
+                              valueListenable: controller.torchState,
+                              builder: (context, state, child) {
+                                switch (state) {
+                                  case TorchState.off:
+                                    return const Icon(
+                                      Icons.flash_off,
+                                      color: Colors.grey,
+                                    );
+                                  case TorchState.on:
+                                    return const Icon(
+                                      Icons.flash_on,
+                                      color: Colors.orange,
+                                    );
+                                }
+                              },
+                            ),
+                          )
+                        : null,
                   ),
                 ),
               ),
