@@ -276,7 +276,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                         : IconButton(
                             color: Theme.of(context).primaryColor,
                             tooltip: "Voltar",
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () => widget.callbackPrev!(),
                             icon: const Icon(Icons.arrow_back),
                           ),
                     title: !widget.hintToBtn
