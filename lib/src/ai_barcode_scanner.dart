@@ -129,7 +129,7 @@ class AiBarcodeScanner extends StatefulWidget {
     this.cutOutHeight,
     this.cutOutBottomOffset = 0,
     this.showHint = true,
-    this.hintText = 'Scan QR Code',
+    this.hintText = 'Escanear QRCode',
     this.hintMargin = const EdgeInsets.all(16),
     this.hintBackgroundColor,
     this.hintTextStyle = const TextStyle(
@@ -139,10 +139,10 @@ class AiBarcodeScanner extends StatefulWidget {
     this.showOverlay = true,
     this.showError = true,
     this.errorColor = Colors.red,
-    this.errorText = 'Invalid BarCode',
+    this.errorText = 'BarCode inválido',
     this.showSuccess = true,
     this.successColor = Colors.green,
-    this.successText = 'BarCode Found',
+    this.successText = 'BarCode encontrado',
     this.canPop = true,
   })  : assert(validateText == null || validateType != null),
         assert(validateText != null || validateType == null),
@@ -183,7 +183,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
             onDetect: (barcode, args) {
               widget.onDetect?.call(barcode, args);
               if (barcode.rawValue?.isEmpty ?? true) {
-                debugPrint('Failed to scan Barcode');
+                debugPrint('Falha ao escanear Barcode');
                 return;
               }
               if (widget.validateText?.isNotEmpty ?? false) {
@@ -193,7 +193,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                     HapticFeedback.vibrate();
                   }
                   final String code = barcode.rawValue!;
-                  debugPrint('Invalid Barcode => $code');
+                  debugPrint('Barcode inválido => $code');
                   _isSuccess = false;
                   setState(() {});
                   return;
@@ -204,7 +204,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                 HapticFeedback.mediumImpact();
               }
               final String code = barcode.rawValue!;
-              debugPrint('Barcode found => $code');
+              debugPrint('Barcode encontrado => $code');
               widget.onScan(code);
               setState(() {});
               if (widget.canPop) {
@@ -244,7 +244,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                   ),
                   child: ListTile(
                     contentPadding: widget.hintPadding,
-                    leading: widget.useSwitchCamera
+                    leading: widget.useSwitchCamera!
                         ? IconButton(
                             color: Theme.of(context).primaryColor,
                             tooltip: "Switch Camera",
@@ -267,9 +267,9 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                       textAlign: TextAlign.center,
                       style: widget.hintTextStyle,
                     ),
-                    trailing: widget.useTorch
+                    trailing: widget.useTorch!
                         ? IconButton(
-                            tooltip: "Torch",
+                            tooltip: "Flash",
                             onPressed: () => controller.toggleTorch(),
                             icon: ValueListenableBuilder<TorchState>(
                               valueListenable: controller.torchState,
