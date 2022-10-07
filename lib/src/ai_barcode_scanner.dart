@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:prodata_app/helpers/material_helper.dart';
+import 'package:prodata_app/constants/color.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import 'enums/validate_type.dart';
@@ -32,6 +34,12 @@ class AiBarcodeScanner extends StatefulWidget {
 
   /// Enable/Disable Torch
   final bool? useTorch;
+
+  /// Hint to Button with Text
+  final bool? hintToBtn;
+
+  /// Callback function if hintToBtn = true
+  final Function()? callbackBtn;
 
   /// Fit to screen
   final BoxFit fit;
@@ -118,6 +126,8 @@ class AiBarcodeScanner extends StatefulWidget {
     this.controller,
     this.useTorch = true,
     this.useSwitchCamera = true,
+    this.hintToBtn = false,
+    this.callbackBtn,
     this.onDetect,
     this.borderColor = Colors.white,
     this.borderWidth = 10,
@@ -262,11 +272,31 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                             ),
                           )
                         : null,
-                    title: Text(
-                      widget.hintText,
-                      textAlign: TextAlign.center,
-                      style: widget.hintTextStyle,
-                    ),
+                    title: !widget.hintToBtn
+                        ? Text(
+                            widget.hintText,
+                            textAlign: TextAlign.center,
+                            style: widget.hintTextStyle,
+                          )
+                        : ElevatedButton.icon(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialHelper.mspc(corPrincipal),
+                              elevation: MaterialHelper.mspd(2),
+                              fixedSize: MaterialHelper.msize(
+                                  Size(MediaQuery.of(context).size.width, 50)),
+                            ),
+                            onPressed: () {
+                              widget.callbackBtn();
+                            },
+                            icon: Icon(
+                              Icons.check_circle,
+                              color: white,
+                            ),
+                            label: Text(
+                              widget.hintText,
+                              style: TextStyle(color: white),
+                            )),
                     trailing: widget.useTorch!
                         ? IconButton(
                             tooltip: "Flash",
