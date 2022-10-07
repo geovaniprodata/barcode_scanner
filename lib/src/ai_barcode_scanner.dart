@@ -287,7 +287,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                                   Size(MediaQuery.of(context).size.width, 50)),
                             ),
                             onPressed: () {
-                              widget.callbackBtn()!;
+                              widget.callbackBtn!();
                             },
                             icon: Icon(
                               Icons.check_circle,
