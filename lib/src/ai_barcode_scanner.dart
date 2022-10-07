@@ -36,7 +36,7 @@ class AiBarcodeScanner extends StatefulWidget {
   final bool? useTorch;
 
   /// Hint to Button with Text
-  final bool? hintToBtn;
+  final bool hintToBtn;
 
   /// Callback function if hintToBtn = true
   final Function()? callbackBtn;
