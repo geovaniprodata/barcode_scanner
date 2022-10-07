@@ -285,28 +285,29 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                             textAlign: TextAlign.center,
                             style: widget.hintTextStyle,
                           )
-                        : ElevatedButton.icon(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.lightBlue),
-                              elevation: MaterialStateProperty.all(2),
-                              fixedSize: MaterialStateProperty.all(Size(
-                                  MediaQuery.of(context).size.width * 0.6, 50)),
-                              alignment: AlignmentDirectional.centerEnd,
-                              padding: MaterialStateProperty.all(
-                                  const EdgeInsets.only(right: 15)),
-                            ),
-                            onPressed: () {
-                              widget.callbackBtn!();
-                            },
-                            icon: const Icon(
-                              Icons.check_circle,
-                              color: Colors.white,
-                            ),
-                            label: Text(
-                              widget.hintText,
-                              style: const TextStyle(color: Colors.white),
-                            )),
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.lightBlue),
+                                  elevation: MaterialStateProperty.all(2),
+                                  fixedSize: MaterialStateProperty.all(Size(
+                                      MediaQuery.of(context).size.width * 0.6,
+                                      50)),
+                                ),
+                                onPressed: () {
+                                  widget.callbackBtn!();
+                                },
+                                icon: const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.white,
+                                ),
+                                label: Text(
+                                  widget.hintText,
+                                  style: const TextStyle(color: Colors.white),
+                                )),
+                          ),
                     trailing: widget.useTorch!
                         ? IconButton(
                             tooltip: "Flash",
