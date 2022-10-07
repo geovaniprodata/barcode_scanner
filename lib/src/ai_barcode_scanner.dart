@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:prodata_app/helpers/material_helper.dart';
-import 'package:prodata_app/constants/color.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import 'enums/validate_type.dart';
@@ -271,14 +269,12 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                               },
                             ),
                           )
-                        : widget.hintToBtn
-                            ? IconButton(
-                                color: Theme.of(context).primaryColor,
-                                tooltip: "Voltar",
-                                onPressed: () => Navigator.pop(context),
-                                icon: Icon(Icons.arrow_back),
-                              )
-                            : null,
+                        : IconButton(
+                            color: Theme.of(context).primaryColor,
+                            tooltip: "Voltar",
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.arrow_back),
+                          ),
                     title: !widget.hintToBtn
                         ? Text(
                             widget.hintText,
@@ -288,21 +284,21 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                         : ElevatedButton.icon(
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialHelper.mspc(corPrincipal),
-                              elevation: MaterialHelper.mspd(2),
-                              fixedSize: MaterialHelper.msize(Size(
+                                  MaterialStateProperty.all(Colors.lightBlue),
+                              elevation: MaterialStateProperty.all(2),
+                              fixedSize: MaterialStateProperty.all(Size(
                                   MediaQuery.of(context).size.width * 0.6, 50)),
                             ),
                             onPressed: () {
                               widget.callbackBtn!();
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.check_circle,
-                              color: white,
+                              color: Colors.white,
                             ),
                             label: Text(
                               widget.hintText,
-                              style: TextStyle(color: white),
+                              style: const TextStyle(color: Colors.white),
                             )),
                     trailing: widget.useTorch!
                         ? IconButton(
