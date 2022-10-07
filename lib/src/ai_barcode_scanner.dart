@@ -27,8 +27,11 @@ class AiBarcodeScanner extends StatefulWidget {
   /// Set to false if you don't want duplicate barcode to be detected
   final bool allowDuplicates;
 
-  /// Gonna switch camera face ?
-  final bool? switchFace;
+  /// Enable/Disable switch Camera Facing
+  final bool? useSwitchCamera;
+
+  /// Enable/Disable Torch
+  final bool? useTorch;
 
   /// Fit to screen
   final BoxFit fit;
@@ -240,7 +243,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                   ),
                   child: ListTile(
                     contentPadding: widget.hintPadding,
-                    leading: widget.switchFace
+                    leading: widget.useSwitchCamera
                         ? IconButton(
                             color: Theme.of(context).primaryColor,
                             tooltip: "Switch Camera",
@@ -263,7 +266,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                       textAlign: TextAlign.center,
                       style: widget.hintTextStyle,
                     ),
-                    trailing: controller.torchEnabled
+                    trailing: widget.useTorch
                         ? IconButton(
                             tooltip: "Torch",
                             onPressed: () => controller.toggleTorch(),
