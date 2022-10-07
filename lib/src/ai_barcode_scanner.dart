@@ -294,7 +294,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                                   MediaQuery.of(context).size.width * 0.6, 50)),
                               alignment: AlignmentDirectional.centerEnd,
                               padding: MaterialStateProperty.all(
-                                  const EdgeInsets.only(left: 15)),
+                                  const EdgeInsets.only(right: 15)),
                             ),
                             onPressed: () {
                               widget.callbackBtn!();
