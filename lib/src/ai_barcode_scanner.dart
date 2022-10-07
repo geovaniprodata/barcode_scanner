@@ -271,7 +271,14 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                               },
                             ),
                           )
-                        : null,
+                        : widget.hintToBtn
+                            ? IconButton(
+                                color: Theme.of(context).primaryColor,
+                                tooltip: "Voltar",
+                                onPressed: () => Navigator.pop(context),
+                                icon: Icon(Icons.arrow_back),
+                              )
+                            : null,
                     title: !widget.hintToBtn
                         ? Text(
                             widget.hintText,
@@ -283,8 +290,8 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                               backgroundColor:
                                   MaterialHelper.mspc(corPrincipal),
                               elevation: MaterialHelper.mspd(2),
-                              fixedSize: MaterialHelper.msize(
-                                  Size(MediaQuery.of(context).size.width, 50)),
+                              fixedSize: MaterialHelper.msize(Size(
+                                  MediaQuery.of(context).size.width * 0.6, 50)),
                             ),
                             onPressed: () {
                               widget.callbackBtn!();
