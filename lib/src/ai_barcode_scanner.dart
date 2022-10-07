@@ -39,6 +39,9 @@ class AiBarcodeScanner extends StatefulWidget {
   /// Callback function if hintToBtn = true
   final Function()? callbackBtn;
 
+  /// Callback function to Back previous Screen
+  final Function()? callbackPrev;
+
   /// Fit to screen
   final BoxFit fit;
 
@@ -126,6 +129,7 @@ class AiBarcodeScanner extends StatefulWidget {
     this.useSwitchCamera = true,
     this.hintToBtn = false,
     this.callbackBtn,
+    this.callbackPrev,
     this.onDetect,
     this.borderColor = Colors.white,
     this.borderWidth = 10,
