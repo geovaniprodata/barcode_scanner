@@ -36,6 +36,9 @@ class AiBarcodeScanner extends StatefulWidget {
   /// Hint to Button with Text
   final bool hintToBtn;
 
+  /// Icon if to Hint Button if hintToBtn = true
+  final Icon? iconHint;
+
   /// Callback function if hintToBtn = true
   final Function()? callbackBtn;
 
@@ -144,6 +147,7 @@ class AiBarcodeScanner extends StatefulWidget {
     this.hintText = 'Escanear QRCode',
     this.hintMargin = const EdgeInsets.all(16),
     this.hintBackgroundColor,
+    this.iconHint,
     this.hintTextStyle = const TextStyle(
       fontWeight: FontWeight.bold,
     ),
@@ -199,8 +203,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                 return;
               }
               if (widget.validateText?.isNotEmpty ?? false) {
-                if (!widget.validateType!.toValidateTypeBool(
-                    barcode.rawValue!, widget.validateText!)) {
+                if (!widget.validateType!.toValidateTypeBool(barcode.rawValue!, widget.validateText!)) {
                   if (!widget.allowDuplicates) {
                     HapticFeedback.vibrate();
                   }
@@ -289,20 +292,18 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                             padding: const EdgeInsets.only(right: 10),
                             child: ElevatedButton.icon(
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.lightBlue),
+                                  backgroundColor: MaterialStateProperty.all(Colors.lightBlue),
                                   elevation: MaterialStateProperty.all(2),
-                                  fixedSize: MaterialStateProperty.all(Size(
-                                      MediaQuery.of(context).size.width * 0.6,
-                                      50)),
+                                  fixedSize: MaterialStateProperty.all(Size(MediaQuery.of(context).size.width * 0.6, 50)),
                                 ),
                                 onPressed: () {
                                   widget.callbackBtn!();
                                 },
-                                icon: const Icon(
-                                  Icons.check_circle,
-                                  color: Colors.white,
-                                ),
+                                icon: widget.iconHint ??
+                                    const Icon(
+                                      Icons.check_circle,
+                                      color: Colors.white,
+                                    ),
                                 label: Text(
                                   widget.hintText,
                                   style: const TextStyle(color: Colors.white),
