@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import 'draggable_sheet.dart';
-import 'error_builder.dart';
 import 'gallery_button.dart';
 import 'overlay.dart';
 
@@ -70,7 +69,7 @@ class AiBarcodeScanner extends StatefulWidget {
   /// is not yet displaying its camera preview.
   ///
   /// If this is null, a black [ColoredBox] is used as placeholder.
-  final Widget Function(BuildContext)? placeholderBuilder;
+  final Widget Function(BuildContext, Widget?)? placeholderBuilder;
 
   /// Called when this object is removed from the tree permanently.
   final void Function()? onDispose;
