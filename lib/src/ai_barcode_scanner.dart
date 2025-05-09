@@ -188,12 +188,6 @@ class AiBarcodeScanner extends StatefulWidget {
   /// default: bottom center, center, 0.75
   final AlignmentGeometry? galleryButtonAlignment;
 
-  /// Enable/Disable switch Camera Facing
-  final bool? useSwitchCamera;
-
-  /// Enable/Disable Torch
-  final bool? useTorch;
-
   /// actions for the app bar (optional)
   /// Camera switch and torch toggle buttons are added by default
   /// You can add more actions to the app bar using this parameter
@@ -203,8 +197,6 @@ class AiBarcodeScanner extends StatefulWidget {
   const AiBarcodeScanner({
     super.key,
     this.fit = BoxFit.cover,
-    this.useSwitchCamera,
-    this.useTorch,
     this.controller,
     this.borderColor,
     this.cutOutWidth,
