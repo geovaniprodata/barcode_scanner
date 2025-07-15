@@ -115,6 +115,8 @@ class AiBarcodeScanner extends StatefulWidget {
   /// Custom icon for the flashlight when off
   final IconData flashOffIcon;
 
+  final bool showGalleryButton;
+
   const AiBarcodeScanner({
     super.key,
     this.fit = BoxFit.cover,
@@ -144,6 +146,7 @@ class AiBarcodeScanner extends StatefulWidget {
     this.cameraSwitchIcon = CupertinoIcons.arrow_2_circlepath,
     this.flashOnIcon = CupertinoIcons.bolt_fill,
     this.flashOffIcon = CupertinoIcons.bolt,
+    this.showGalleryButton = true,
   });
 
   @override
@@ -196,12 +199,9 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
         body: Center(
           child: SelectableText.rich(
             TextSpan(children: [
+              TextSpan(text: 'This platform(${UniversalPlatform.operatingSystem}) is not supported.\nPlease visit '),
               TextSpan(
-                  text:
-                      'This platform(${UniversalPlatform.operatingSystem}) is not supported.\nPlease visit '),
-              TextSpan(
-                text:
-                    'https://pub.dev/packages/mobile_scanner#platform-support',
+                text: 'https://pub.dev/packages/mobile_scanner#platform-support',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               TextSpan(text: ' for more information.'),
@@ -215,17 +215,13 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
     // This makes it responsive and correctly positioned on any screen.
     final config = widget.overlayConfig;
-    final isNoRect = (config.scannerBorder == ScannerBorder.none ||
-            config.scannerBorder == ScannerBorder.full) ||
+    final isNoRect = (config.scannerBorder == ScannerBorder.none || config.scannerBorder == ScannerBorder.full) ||
         config.scannerOverlayBackground == ScannerOverlayBackground.none ||
-        (config.scannerAnimation == ScannerAnimation.fullWidth ||
-            config.scannerAnimation == ScannerAnimation.none);
+        (config.scannerAnimation == ScannerAnimation.fullWidth || config.scannerAnimation == ScannerAnimation.none);
 
     final screenSize = MediaQuery.sizeOf(context);
-    final defaultScanWindowWidth =
-        isNoRect ? screenSize.width : screenSize.width * 0.8;
-    final defaultScanWindowHeight =
-        isNoRect ? screenSize.height : screenSize.height * 0.36;
+    final defaultScanWindowWidth = isNoRect ? screenSize.width : screenSize.width * 0.8;
+    final defaultScanWindowHeight = isNoRect ? screenSize.height : screenSize.height * 0.36;
     final defaultScanWindow = Rect.fromCenter(
       center: screenSize.center(Offset.zero),
       width: defaultScanWindowWidth,
@@ -246,9 +242,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
       ),
       IconButton.filled(
         style: IconButton.styleFrom(
-          backgroundColor: isTorchOn
-              ? CupertinoColors.activeOrange
-              : CupertinoColors.systemGrey6,
+          backgroundColor: isTorchOn ? CupertinoColors.activeOrange : CupertinoColors.systemGrey6,
           foregroundColor: CupertinoColors.darkBackgroundGray,
         ),
         icon: Icon(isTorchOn ? widget.flashOnIcon : widget.flashOffIcon),
@@ -264,7 +258,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
           AppBar(
             backgroundColor: Colors.transparent,
             actions: [
-              if (widget.galleryButtonType == GalleryButtonType.icon) ...[
+              if (widget.galleryButtonType == GalleryButtonType.icon && widget.showGalleryButton) ...[
                 GalleryButton.icon(
                   onImagePick: widget.onImagePick,
                   onDetect: widget.onDetect,
@@ -280,8 +274,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
           ),
       extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
       bottomSheet: widget.bottomSheetBuilder?.call(context, _controller),
-      bottomNavigationBar:
-          widget.bottomNavigationBarBuilder?.call(context, _controller),
+      bottomNavigationBar: widget.bottomNavigationBarBuilder?.call(context, _controller),
       body: GestureDetector(
         // UPDATED: onScaleStart and onScaleUpdate logic is now more robust.
         onScaleStart: (details) {
@@ -308,16 +301,13 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
               onDetect: _onDetect,
               fit: widget.fit,
               scanWindow: scanWindow,
-              errorBuilder: widget.errorBuilder ??
-                  (context, error) => ErrorBuilder(error: error),
+              errorBuilder: widget.errorBuilder ?? (context, error) => ErrorBuilder(error: error),
               placeholderBuilder: widget.placeholderBuilder,
               scanWindowUpdateThreshold: widget.scanWindowUpdateThreshold,
-              overlayBuilder: (context, overlay) =>
-                  ValueListenableBuilder<bool?>(
+              overlayBuilder: (context, overlay) => ValueListenableBuilder<bool?>(
                 valueListenable: _isSuccess,
                 builder: (context, isSuccess, child) {
-                  return widget.overlayBuilder
-                          ?.call(context, overlay, _controller, isSuccess) ??
+                  return widget.overlayBuilder?.call(context, overlay, _controller, isSuccess) ??
                       ScannerOverlay(
                         // REFACTORED: Pass the scanWindow to the overlay.
                         scanWindow: scanWindow,
@@ -332,7 +322,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
                   },
               useAppLifecycleState: widget.useAppLifecycleState,
             ),
-            if (widget.galleryButtonType == GalleryButtonType.filled)
+            if (widget.galleryButtonType == GalleryButtonType.filled && widget.showGalleryButton)
               Align(
                 alignment: widget.galleryButtonAlignment ??
                     Alignment.lerp(
